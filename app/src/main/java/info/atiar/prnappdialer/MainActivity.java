@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.github.appintro.AppIntro;
 import com.github.appintro.AppIntroCustomLayoutFragment;
 import com.github.appintro.AppIntroFragment;
+import com.google.android.gms.ads.AdView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -38,7 +39,10 @@ import butterknife.ButterKnife;
 import model.LimitModdel;
 import model.NumberModel;
 import model.WebsitesModel;
-
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 public class MainActivity extends AppIntro {
     final String tag = getClass().getSimpleName() + "Atiar - ";
 
@@ -50,12 +54,14 @@ public class MainActivity extends AppIntro {
 
     WebsitesAdapter websitesAdapter;
     private List<WebsitesModel> websiteLists = new ArrayList<>();
+    private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        addMobRequest();
 
         //Firebase stuff
         auth = FirebaseAuth.getInstance();
@@ -250,4 +256,63 @@ public class MainActivity extends AppIntro {
 
     }
 
+    public void addMobRequest(){
+        mAdView = (AdView) findViewById(R.id.adView);
+        //mAdView.setAdSize(AdSize.BANNER);
+        //mAdView.setAdUnitId(getString(R.string.banner_ad_unit_id));
+
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+        mAdView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+            }
+
+            @Override
+            public void onAdClosed() {
+                Toast.makeText(getApplicationContext(), "Ad is closed!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                Toast.makeText(getApplicationContext(), "Ad failed to load! error code: " + errorCode, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                Toast.makeText(getApplicationContext(), "Ad left application!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdOpened() {
+                super.onAdOpened();
+            }
+        });
+
+        mAdView.loadAd(adRequest);
+    }
+
+    @Override
+    public void onPause() {
+        if (mAdView != null) {
+            mAdView.pause();
+        }
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mAdView != null) {
+            mAdView.resume();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+        super.onDestroy();
+    }
 }
