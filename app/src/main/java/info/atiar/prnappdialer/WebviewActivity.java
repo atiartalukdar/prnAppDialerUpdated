@@ -25,6 +25,8 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -56,6 +58,7 @@ public class WebviewActivity extends AppCompatActivity {
     Context mContext;
     String userId, websiteID, uniqueKey;
     private AdView mAdView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +83,8 @@ public class WebviewActivity extends AppCompatActivity {
     }
 
     public void addNumber(View view) {
+        showInterestitialAd();
+
         if (numberList.size()+1>BP.getNumberLimit()){
             showDialog("Limit issue","You rechead the maximum  limit. You can't add more then "+BP.getNumberLimit()+" Numbers");
         }else {
@@ -234,6 +239,26 @@ public class WebviewActivity extends AppCompatActivity {
         });
 
         mAdView.loadAd(adRequest);
+    }
+    private InterstitialAd mInterstitialAd;
+    public void interestitialAdRequest(){
+        MobileAds.initialize(this,getResources().getString(R.string.admob_ad));
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId(getResources().getString(R.string.interstitial_ad_unit_id));
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+    }
+    public void showInterestitialAd(){
+
+        if (!BP.clickCounter()){
+            if (mInterstitialAd.isLoaded()) {
+                mInterstitialAd.show();
+            } else {
+                Log.e("NumberDialA Atiar =  ", "The interstitial wasn't loaded yet.");
+            }
+        }else {
+            Log.e("NumberDialA Atiar =  ","click counter is not fullfill.");
+        }
+
     }
 
     @Override

@@ -1,9 +1,12 @@
 <resources>
     <string name="app_name">PRN ACCESS TESTER</string>
+    <string name="admob_ad">ca-app-pub-9987696232585571~1530441695</string>
+
 <!--
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
     <string name="interstitial_ad_unit_id">ca-app-pub-3940256099942544/1033173712</string>
 -->
+
     <string name="banner_ad_unit_id">ca-app-pub-9987696232585571/7329563282</string>
     <string name="interstitial_ad_unit_id">ca-app-pub-9987696232585571/3629991427</string>
 

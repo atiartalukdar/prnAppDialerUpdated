@@ -74,6 +74,7 @@ public class WebsitesAdapter extends BaseAdapter {
         _allNumbers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ((MainActivity) activity).showInterestitialAd();
                 Intent intent =  new Intent(activity, NumberDialActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("website",websitesModel.getWebsite());
@@ -85,6 +86,7 @@ public class WebsitesAdapter extends BaseAdapter {
         _visitWebsite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ((MainActivity) activity).showInterestitialAd();
                 Intent intent =  new Intent(activity, WebviewActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("website",websitesModel.getWebsite());
@@ -96,6 +98,7 @@ public class WebsitesAdapter extends BaseAdapter {
         _deleteWebsiteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ((MainActivity) activity).showInterestitialAd();
                 ((MainActivity) activity).removeItem(position);
                 notifyDataSetChanged();
             }

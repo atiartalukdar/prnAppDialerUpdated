@@ -20,6 +20,8 @@ import com.github.appintro.AppIntro;
 import com.github.appintro.AppIntroCustomLayoutFragment;
 import com.github.appintro.AppIntroFragment;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -102,6 +104,7 @@ public class MainActivity extends AppIntro {
                 onBackPressed();
                 break;
             case R.id.menu_add_website:
+                showInterestitialAd();
                 if (websiteLists.size()+1>BP.getWebsiteLimit()){
                     showDialog("Limit issue","You rechead the maximum  limit. You can't add more then "+BP.getWebsiteLimit()+" websites");
                 }else {
@@ -290,6 +293,26 @@ public class MainActivity extends AppIntro {
         });
 
         mAdView.loadAd(adRequest);
+    }
+    private InterstitialAd mInterstitialAd;
+    public void interestitialAdRequest(){
+        MobileAds.initialize(this,getResources().getString(R.string.admob_ad));
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId(getResources().getString(R.string.interstitial_ad_unit_id));
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+    }
+    public void showInterestitialAd(){
+
+        if (!BP.clickCounter()){
+            if (mInterstitialAd.isLoaded()) {
+                mInterstitialAd.show();
+            } else {
+                Log.e("NumberDialA Atiar =  ", "The interstitial wasn't loaded yet.");
+            }
+        }else {
+            Log.e("NumberDialA Atiar =  ","click counter is not fullfill.");
+        }
+
     }
 
     @Override

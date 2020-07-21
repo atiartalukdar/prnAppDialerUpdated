@@ -86,8 +86,10 @@ public class NumbersAdapter extends BaseAdapter {
         _deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ((NumberDialActivity) activity).showInterestitialAd();
                 ((NumberDialActivity) activity).removeItem(position);
                 notifyDataSetChanged();
+
             }
         });
 
@@ -118,7 +120,8 @@ public class NumbersAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 if (!BP.isWaitNeededToSentSMS){
-                    ( (NumberDialActivity) activity ).sendSMSFromAdapter(numberModel);
+                    ((NumberDialActivity) activity).showInterestitialAd();
+                    ((NumberDialActivity) activity ).sendSMSFromAdapter(numberModel);
                 }else {
                     Toast.makeText(activity, "Please wait a while to send next sms",Toast.LENGTH_SHORT).show();
 
