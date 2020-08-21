@@ -40,17 +40,27 @@ public class BP {
     public static boolean isSingleNumber = false;
     public static boolean isCallFromApp = false;
     public static boolean isCallRunning = false;
-    private static int maxClick = 3;
-    private static int clickCount  =  0;
+    private static int maxClick = 6;
+    private static String clickCountKey = "clickCountKey";
 
-    public static boolean clickCounter(){
+    public static boolean showInterestitialAd(){
+        int clickCount = getPreferenceInt1(clickCountKey);
         Log.e("BP atiar = ", clickCount+"");
-        if (clickCount>=maxClick){
-            clickCount = 0;
-            return false;
-        }else {
-            clickCount++;
+        setClickCount();
+        if (clickCount==maxClick){
             return true;
+        }else {
+            return false;
+        }
+
+    }
+
+    private static void setClickCount(){
+        int oldValue = getPreferenceInt1(clickCountKey);
+        if (oldValue==maxClick){
+            setPreference(clickCountKey,0);
+        }else {
+            setPreference(clickCountKey,oldValue+1);
         }
     }
 
@@ -126,6 +136,10 @@ public class BP {
     private static int getPreferenceInt(String key) {
         SharedPreferences settings = MyApplication.getContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         return settings.getInt(key, 10);
+    }
+    private static int getPreferenceInt1(String key) {
+        SharedPreferences settings = MyApplication.getContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        return settings.getInt(key, 0);
     }
 
     private static void removeSingleItem(String keyToRemove) {

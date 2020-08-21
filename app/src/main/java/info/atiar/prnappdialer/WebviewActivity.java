@@ -64,8 +64,8 @@ public class WebviewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webview);
         ButterKnife.bind(this);
-
         addMobRequest();
+        interestitialAdRequest();
 
         mContext = this;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -80,6 +80,9 @@ public class WebviewActivity extends AppCompatActivity {
         userId = auth.getUid();
         mDatabase = FirebaseDatabase.getInstance().getReference("allnumbers").child(userId).child(websiteID);
         numbersFromDB();
+
+        showInterestitialAd();
+
     }
 
     public void addNumber(View view) {
@@ -249,12 +252,13 @@ public class WebviewActivity extends AppCompatActivity {
     }
     public void showInterestitialAd(){
 
-        if (!BP.clickCounter()){
+        if (BP.showInterestitialAd()){
             if (mInterstitialAd.isLoaded()) {
                 mInterstitialAd.show();
             } else {
-                Log.e("NumberDialA Atiar =  ", "The interstitial wasn't loaded yet.");
-            }
+                AdRequest newadRequest = new AdRequest.Builder().build();
+                mInterstitialAd.loadAd(newadRequest);
+                Log.e("NumberDialA Atiar =  ", "The interstitial wasn't loaded yet.");            }
         }else {
             Log.e("NumberDialA Atiar =  ","click counter is not fullfill.");
         }

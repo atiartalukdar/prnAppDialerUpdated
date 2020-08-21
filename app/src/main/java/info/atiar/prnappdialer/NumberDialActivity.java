@@ -125,6 +125,8 @@ public class NumberDialActivity extends AppCompatActivity {
                 .onSameThread()
                 .check();
 
+        showInterestitialAd();
+
     }
 
     private void numbersFromDB() {
@@ -462,10 +464,12 @@ public class NumberDialActivity extends AppCompatActivity {
     }
     public void showInterestitialAd(){
 
-        if (!BP.clickCounter()){
+        if (BP.showInterestitialAd()){
             if (mInterstitialAd.isLoaded()) {
                 mInterstitialAd.show();
             } else {
+                AdRequest newadRequest = new AdRequest.Builder().build();
+                mInterstitialAd.loadAd(newadRequest);
                 Log.e("NumberDialA Atiar =  ", "The interstitial wasn't loaded yet.");
             }
         }else {

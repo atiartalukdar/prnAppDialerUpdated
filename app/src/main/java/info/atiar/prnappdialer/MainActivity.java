@@ -64,6 +64,7 @@ public class MainActivity extends AppIntro {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         addMobRequest();
+        interestitialAdRequest();
 
         //Firebase stuff
         auth = FirebaseAuth.getInstance();
@@ -78,6 +79,9 @@ public class MainActivity extends AppIntro {
         websiteDataFromDB();
 
         readLimit();
+
+        showInterestitialAd();
+
     }
 
     public void visitWebsite(View view) {
@@ -102,6 +106,7 @@ public class MainActivity extends AppIntro {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
+                showInterestitialAd();
                 break;
             case R.id.menu_add_website:
                 showInterestitialAd();
@@ -303,10 +308,12 @@ public class MainActivity extends AppIntro {
     }
     public void showInterestitialAd(){
 
-        if (!BP.clickCounter()){
+        if (BP.showInterestitialAd()){
             if (mInterstitialAd.isLoaded()) {
                 mInterstitialAd.show();
             } else {
+                AdRequest newadRequest = new AdRequest.Builder().build();
+                mInterstitialAd.loadAd(newadRequest);
                 Log.e("NumberDialA Atiar =  ", "The interstitial wasn't loaded yet.");
             }
         }else {
